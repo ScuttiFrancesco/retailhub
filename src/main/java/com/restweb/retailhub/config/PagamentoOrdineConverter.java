@@ -11,7 +11,10 @@ public class PagamentoOrdineConverter implements AttributeConverter<PagamentoOrd
 		if (attribute == null) {
 			return null;
 		}
-		return attribute.toString();
+		
+		String eliminaUnderscore = attribute.toString().replace("_", " ");
+		
+		return eliminaUnderscore;
 	}
 
 	@Override
@@ -20,7 +23,10 @@ public class PagamentoOrdineConverter implements AttributeConverter<PagamentoOrd
 		if (dbData == null) {
 			return null;
 		}
-		return PagamentoOrdine.valueOf(dbData);
+		
+		String aggiungiUnderscore = dbData.replace(" ", "_");
+		
+		return PagamentoOrdine.valueOf(aggiungiUnderscore);
 	}
 
 }

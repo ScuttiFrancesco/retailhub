@@ -1,5 +1,6 @@
 package com.restweb.retailhub.config;
 
+import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
 
 import jakarta.persistence.AttributeConverter;
@@ -12,7 +13,9 @@ public class StatoOrdineConverter implements AttributeConverter<StatoOrdine, Str
 		if (attribute == null) {
 			return null;
 		}
-		return attribute.toString();
+		String eliminaUnderscore = attribute.toString().replace("_", " ");
+
+		return eliminaUnderscore;
 	}
 
 	@Override
@@ -21,7 +24,9 @@ public class StatoOrdineConverter implements AttributeConverter<StatoOrdine, Str
 		if (dbData == null) {
 			return null;
 		}
-		return StatoOrdine.valueOf(dbData);
+		String aggiungiUnderscore = dbData.replace(" ", "_");
+
+		return StatoOrdine.valueOf(aggiungiUnderscore);
 	}
 
 }
