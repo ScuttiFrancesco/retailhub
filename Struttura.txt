@@ -1,0 +1,86 @@
+Progetto Retail hub 
+
+
+	6 tabelle:
+				cliente
+				magazzino
+				negozio
+				operatore
+				ordine
+				prodotto
+
+	enum da fare:
+				tipo prodotto(prodotto)
+				pagameto(ordine)
+				stato(ordine)
+			
+	CLASSI		
+		@table
+		prodotto:
+				long id
+				String nome
+				double prezzo
+				tipo prodotto
+				int quantita
+				Magazzino magazzino(molti a uno)
+				list<Ordine> ordine(molti a molti)
+				
+		@table
+		ordine:
+				long id
+				double prezzoTotale
+				stato
+				pagameto
+				Negozio punto vendita(molti a uno)
+				list<prodotto> prodotti(molti a molti)
+				Cliente cliente(molti a uno)
+				Operatore operatore(molti a uno)
+		
+		@mappedSuperclass
+		Persona:
+		
+				String nome
+				String congome
+				Date ddn
+				String email
+				int telefono
+		@table	
+		operatore extends Persona:		
+				long id
+				Date dataAssunzione
+				int livello
+				list<ordine> ordini(uno a molti)
+				Negozio negozio (molti a uno)
+				
+				
+				
+		@table		
+		negozio:
+				Long id
+				String sede
+				String indirizzo
+				int Telefono
+				list<operatore> operatori(uno a molti)
+				Magazzino magazzino (uno a uno)
+				list<ordine> ordini(uno a molti)
+				
+	
+		@table
+		magazzino:
+				long id
+				String sede 
+				String indirizzo
+				int telefono
+				Negozio negozio(uno a uno)
+				list<prodotto> prodotti(uno a molti)
+				list<operatore> operatori
+				
+				
+				
+		@table
+		clienti extends Persona:
+				long id
+				Date dataRegistrazione
+				list<ordine> ordini
+				
+				
