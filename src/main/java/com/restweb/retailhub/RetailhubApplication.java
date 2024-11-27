@@ -10,4 +10,6 @@ public class RetailhubApplication {
 		SpringApplication.run(RetailhubApplication.class, args);
 	}
 	//http://localhost:8080/swagger-ui/index.html ------ http://localhost:8080/v3/api-docs
+	
+	//palle d'acciaio
 }
