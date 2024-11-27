@@ -10,6 +10,7 @@ public class Prodotto {
 	
 	private long id;
 	private String nome;
+	private String marca;
 	private double prezzo;
 	private TipoProdotto tipo;
 	private int quantita;
