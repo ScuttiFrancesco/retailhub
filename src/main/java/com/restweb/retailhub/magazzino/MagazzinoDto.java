@@ -1,18 +1,20 @@
 package com.restweb.retailhub.magazzino;
 
-import java.util.List;
 import com.restweb.retailhub.negozio.Negozio;
-import com.restweb.retailhub.prodotto.Prodotto;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class MagazzinoDto {
 
 	private long id;
+	@NotBlank
 	private String sede;
+	@NotBlank
 	private String indirizzo;
+	@NotBlank
 	private String telefono;
-	private Negozio negozio;
-	private List<Prodotto> prodotti;
+	private Negozio negozio;//da verificare se crea il loop...ev. si puo eliminare
+	
 
 }

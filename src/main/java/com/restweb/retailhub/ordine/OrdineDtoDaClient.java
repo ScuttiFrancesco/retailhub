@@ -10,7 +10,7 @@ import com.restweb.retailhub.prodotto.Prodotto;
 import lombok.Data;
 
 @Data
-public class OrdineDto {
+public class OrdineDtoDaClient {
 
 	private long id;
 	private double totale;

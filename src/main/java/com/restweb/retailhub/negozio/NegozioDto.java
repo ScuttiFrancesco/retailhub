@@ -1,20 +1,19 @@
 package com.restweb.retailhub.negozio;
 
-import java.util.List;
 import com.restweb.retailhub.magazzino.Magazzino;
-import com.restweb.retailhub.operatore.Operatore;
-import com.restweb.retailhub.ordine.Ordine;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class NegozioDto {
 
 	private long id;
+	@NotBlank
 	private String sede;
+	@NotBlank
 	private String indirizzo;
+	@NotBlank
 	private String telefono;
-	private List<Operatore> operatori;
 	private Magazzino magazzino;
-	private List<Ordine> ordini;
 
 }
