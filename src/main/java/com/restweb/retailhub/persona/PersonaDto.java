@@ -1,15 +1,10 @@
 package com.restweb.retailhub.persona;
 
-import java.io.Serializable;
 import java.sql.Date;
-
-import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
 @Data
-@MappedSuperclass
-public class Persona implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class PersonaDto {
 
 	private String nome;
 	private String cognome;
