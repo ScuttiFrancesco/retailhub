@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 public class ClienteDto extends PersonaDto {
 
 	private long id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
 	private Date dataRegistrazione;
 
 	public void trimCampi() {

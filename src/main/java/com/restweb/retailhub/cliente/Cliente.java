@@ -3,11 +3,8 @@ package com.restweb.retailhub.cliente;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restweb.retailhub.ordine.Ordine;
 import com.restweb.retailhub.persona.Persona;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -11,7 +11,7 @@ public class PersonaDto {
 
 	private String nome;
 	private String cognome;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
 	private Date ddn;
 	private String email;
 	private String telefono;
