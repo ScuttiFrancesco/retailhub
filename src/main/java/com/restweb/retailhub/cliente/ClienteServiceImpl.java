@@ -1,5 +1,7 @@
 package com.restweb.retailhub.cliente;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -25,6 +27,8 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	public ClienteDto inserisci(ClienteDto c) {
 
+		c.trimCampi();
+
 		List<Cliente> lista = cr.findAll();
 
 		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome().trim())
@@ -32,14 +36,16 @@ public class ClienteServiceImpl implements IClienteService {
 			throw new DataConflictException("Cliente già presente in DB");
 		}
 
-		if (lista.stream().anyMatch(cli -> cli.getEmail().equals(c.getEmail().trim()))) {
+		if (lista.stream().anyMatch(cli -> cli.getEmail().equals(c.getEmail()))) {
 			throw new DataConflictException("Email già presente in DB");
+		}
+
+		if (lista.stream().anyMatch(cli -> cli.getTelefono().equals(c.getTelefono()))) {
+			throw new DataConflictException("Telefono già presente in DB");
 		}
 
 		long id = cr.recuperaUltimoId() + 1;
 		cr.setAutoIncrement(id);
-
-		c.trimCampi();
 
 		cr.save(mm.map(c, Cliente.class));
 
@@ -49,25 +55,31 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	public boolean aggiorna(ClienteDto c) {
 
+		c.trimCampi();
+		c.setDataRegistrazione(c.getDataRegistrazione() == null ? Date.valueOf(LocalDate.now()) : c.getDataRegistrazione());
+
 		cr.findById(c.getId()).orElseThrow(
 				() -> new EntityNotFoundException(String.format("Cliente con id %d non presente in DB", c.getId())));
-		
+
 		List<Cliente> lista = cr.findAll();
-		lista.remove(mm.map(lista.stream().filter(cli -> cli.getId() == c.getId()).findFirst().orElse(null), Cliente.class));
+		Cliente cliente = lista.stream().filter(cli -> cli.getId() == c.getId()).findFirst().orElse(null);
+		lista.remove(cliente);
 
 		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome().trim())
 				&& cli.getCognome().equalsIgnoreCase(c.getCognome().trim()) && cli.getDdn().equals(c.getDdn()))) {
 			throw new DataConflictException("Cliente già presente in DB");
 		}
 
-		if (lista.stream().anyMatch(cli -> cli.getEmail().equals(c.getEmail().trim()))) {
+		if (lista.stream().anyMatch(cli -> cli.getEmail().equals(c.getEmail()))) {
 			throw new DataConflictException("Email già presente in DB");
 		}
 
-		c.trimCampi();
+		if (lista.stream().anyMatch(cli -> cli.getTelefono().equals(c.getTelefono()))) {
+			throw new DataConflictException("Telefono già presente in DB");
+		}
 
 		cr.save(mm.map(c, Cliente.class));
-		
+
 		return cr.findById(c.getId()).get().equals(mm.map(c, Cliente.class));
 	}
 
@@ -76,9 +88,9 @@ public class ClienteServiceImpl implements IClienteService {
 
 		cr.findById(id).orElseThrow(
 				() -> new EntityNotFoundException(String.format("Cliente con id %d non presente in DB", id)));
-		
+
 		cr.deleteById(id);
-		
+
 		return cr.findById(id).isEmpty();
 	}
 
