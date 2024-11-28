@@ -38,7 +38,6 @@ public class ClienteServiceImpl implements IClienteService {
 
 		long id = cr.recuperaUltimoId() + 1;
 		cr.setAutoIncrement(id);
-		c.setId(id);
 
 		c.trimCampi();
 
@@ -54,7 +53,7 @@ public class ClienteServiceImpl implements IClienteService {
 				() -> new EntityNotFoundException(String.format("Cliente con id %d non presente in DB", c.getId())));
 		
 		List<Cliente> lista = cr.findAll();
-		lista.remove(mm.map(c, Cliente.class));
+		lista.remove(mm.map(lista.stream().filter(cli -> cli.getId() == c.getId()).findFirst().orElse(null), Cliente.class));
 
 		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome().trim())
 				&& cli.getCognome().equalsIgnoreCase(c.getCognome().trim()) && cli.getDdn().equals(c.getDdn()))) {
