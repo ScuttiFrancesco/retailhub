@@ -1,10 +1,9 @@
 package com.restweb.retailhub.persona;
 
 import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
+
 
 @Data
 public class PersonaDto {

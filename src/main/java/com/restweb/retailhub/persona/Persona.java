@@ -2,9 +2,9 @@ package com.restweb.retailhub.persona;
 
 import java.io.Serializable;
 import java.sql.Date;
-
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+
 
 @Data
 @MappedSuperclass
