@@ -1,6 +1,7 @@
 package com.restweb.retailhub.ordine;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import com.restweb.retailhub.cliente.Cliente;
 import com.restweb.retailhub.enums.PagamentoOrdine;
@@ -29,6 +30,7 @@ public class Ordine implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private double totale;
+	private Date dataOrdine;
 	private StatoOrdine statoOrdine;
 	private PagamentoOrdine pagamentoOrdine;
 	@ManyToOne
