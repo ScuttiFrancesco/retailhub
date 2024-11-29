@@ -31,8 +31,8 @@ public class ClienteServiceImpl implements IClienteService {
 
 		List<Cliente> lista = cr.findAll();
 
-		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome().trim())
-				&& cli.getCognome().equalsIgnoreCase(c.getCognome().trim()) && cli.getDdn().equals(c.getDdn()))) {
+		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome())
+				&& cli.getCognome().equalsIgnoreCase(c.getCognome()) && cli.getDdn().equals(c.getDdn()))) {
 			throw new DataConflictException("Cliente già presente in DB");
 		}
 
