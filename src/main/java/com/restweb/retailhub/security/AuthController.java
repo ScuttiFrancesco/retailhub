@@ -29,7 +29,7 @@ public class AuthController {
 		this.ju = ju;
 	}
 
-	@PostMapping("register")
+	@PostMapping("/register")
 	public String register(@RequestBody User user) {
 		user.setRole(user.getRole().toUpperCase());
 		user.setPassword(pe.encode(user.getPassword()));
