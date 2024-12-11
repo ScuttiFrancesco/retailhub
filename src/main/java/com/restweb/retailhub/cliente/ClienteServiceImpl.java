@@ -15,8 +15,8 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
-	private IClienteRepository cr;
-	private ModelMapper mm;
+	private final IClienteRepository cr;
+	private final ModelMapper mm;
 
 	@Autowired
 	public ClienteServiceImpl(IClienteRepository cr, ModelMapper mm) {
@@ -66,8 +66,8 @@ public class ClienteServiceImpl implements IClienteService {
 		Cliente cliente = lista.stream().filter(cli -> cli.getId() == c.getId()).findFirst().orElse(null);
 		lista.remove(cliente);
 
-		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome().trim())
-				&& cli.getCognome().equalsIgnoreCase(c.getCognome().trim()) && cli.getDdn().equals(c.getDdn()))) {
+		if (lista.stream().anyMatch(cli -> cli.getNome().equalsIgnoreCase(c.getNome())
+				&& cli.getCognome().equalsIgnoreCase(c.getCognome()) && cli.getDdn().equals(c.getDdn()))) {
 			throw new DataConflictException("Cliente già presente in DB");
 		}
 

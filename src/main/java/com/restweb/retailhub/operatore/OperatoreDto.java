@@ -21,5 +21,20 @@ public class OperatoreDto extends PersonaDto {
 	private Date dataAssunzione;
 	private int livello;
 	private Negozio negozio;
+	
+	public void trimCampi() {
+		if (getNome() != null) {
+			setNome(getNome().trim());
+		}
+		if (getCognome() != null) {
+			setCognome(getCognome().trim());
+		}
+		if (getEmail() != null) {
+			setEmail(getEmail().trim());
+		}
+		if (getTelefono() != null) {
+			setTelefono(getTelefono().trim());
+		}
+	}
 
 }
