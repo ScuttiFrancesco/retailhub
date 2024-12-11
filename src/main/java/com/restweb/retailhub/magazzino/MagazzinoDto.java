@@ -14,7 +14,6 @@ public class MagazzinoDto {
 	private String indirizzo;
 	@NotBlank
 	private String telefono;
-	private Negozio negozio;//da verificare se crea il loop...ev. si puo eliminare
-	
+	private Negozio negozio;// da verificare se crea il loop...ev. si puo eliminare
 
 }

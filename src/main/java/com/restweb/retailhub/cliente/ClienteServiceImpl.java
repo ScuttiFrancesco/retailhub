@@ -56,7 +56,8 @@ public class ClienteServiceImpl implements IClienteService {
 	public boolean aggiorna(ClienteDto c) {
 
 		c.trimCampi();
-		c.setDataRegistrazione(c.getDataRegistrazione() == null ? Date.valueOf(LocalDate.now()) : c.getDataRegistrazione());
+		c.setDataRegistrazione(
+				c.getDataRegistrazione() == null ? Date.valueOf(LocalDate.now()) : c.getDataRegistrazione());
 
 		cr.findById(c.getId()).orElseThrow(
 				() -> new EntityNotFoundException(String.format("Cliente con id %d non presente in DB", c.getId())));
