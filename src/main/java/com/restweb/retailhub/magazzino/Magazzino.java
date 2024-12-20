@@ -1,5 +1,6 @@
 package com.restweb.retailhub.magazzino;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import com.restweb.retailhub.negozio.Negozio;
@@ -19,6 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name = "magazzini")
 public class Magazzino implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id

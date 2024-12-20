@@ -18,4 +18,15 @@ public class ProdottoDto {
 	private int quantita;
 	private Magazzino magazzino;
 
+	public void trimCampi() {
+		if (getNome() != null) {
+			setNome(getNome().trim());
+		}
+		if (getMarca() != null) {
+			setMarca(getMarca().trim());
+		}
+		if (getLotto() != null) {
+			setLotto(getLotto().trim());
+		}
+	}
 }
