@@ -22,11 +22,20 @@ public class OrdineDtoDaClient {
 	@NotNull(message = "Campo data ordine obbligatorio")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
 	private Date dataOrdine;
+	@NotNull
 	private StatoOrdine statoOrdine;
+	@NotNull
 	private PagamentoOrdine pagamentoOrdine;
 	private Cliente cliente;
 	private Operatore operatore;
 	private Negozio negozio;
+	@NotNull
 	private List<Prodotto> prodotti;
+
+	public void calcolaTotale(){
+
+		this.totale = prodotti.stream().mapToDouble(Prodotto::getPrezzo).sum();
+
+	}
 
 }

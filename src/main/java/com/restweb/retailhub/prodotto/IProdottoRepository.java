@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IProdottoRepository extends JpaRepository<Prodotto, Long> {
 
-    @Query(value = "SELECT p.id FROM prodotti p ORDER BY p.id DESC", nativeQuery = true)
+    @Query(value = "SELECT p.id FROM prodotti p ORDER BY p.id DESC  LIMIT 1", nativeQuery = true)
     Long recuperaUltimoId();
 
     @Modifying

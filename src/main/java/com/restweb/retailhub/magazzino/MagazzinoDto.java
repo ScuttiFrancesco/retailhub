@@ -16,4 +16,15 @@ public class MagazzinoDto {
 	private String telefono;
 	private Negozio negozio;// da verificare se crea il loop...ev. si puo eliminare
 
+	public void trimCampi() {
+		if (getSede() != null) {
+			setSede(getSede().trim());
+		}
+		if (getIndirizzo() != null) {
+			setIndirizzo(getIndirizzo().trim());
+		}
+		if (getTelefono() != null) {
+			setTelefono(getTelefono().trim());
+		}
+	}
 }

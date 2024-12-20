@@ -10,13 +10,9 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface IMagazzinoRepository extends JpaRepository<Magazzino, Long> {
-
-	
 	
 	@Query(value = "SELECT m.id FROM magazzini m ORDER BY m.id DESC LIMIT 1", nativeQuery = true)
 	long recuperaUltimoId();
-	
-	long pippoFranco();
 	
 	@Transactional
 	@Modifying
