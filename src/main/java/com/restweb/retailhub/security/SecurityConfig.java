@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +30,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
 
-		https.csrf().disable().authorizeHttpRequests().requestMatchers("/auth/**").permitAll().requestMatchers("/admin/**").hasRole("ADMIN").anyRequest()
+		https.csrf().disable().authorizeHttpRequests().requestMatchers("/api/cliente/**","/auth/**").permitAll().requestMatchers("/admin/**").hasRole("ADMIN").anyRequest()
 				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		https.addFilterBefore(jaf, UsernamePasswordAuthenticationFilter.class);
 		return https.build();

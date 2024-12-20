@@ -11,23 +11,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/cliente")
+@RequestMapping("/api/cliente")
 public class ClienteController {
 
 	private IClienteService cs;
 
 	@Autowired
 	public ClienteController(IClienteService cs) {
+
 		this.cs = cs;
 	}
 
-	@GetMapping("getCliente/{id}")
+	@PostMapping("/inserisci")
+	public ClienteDto inserisci(@RequestBody ClienteDto clienteDto){
+
+		return cs.inserisci(clienteDto);
+	}
+
+	@PutMapping("/aggiorna/{id}")
+	public ClienteDto inserisci(@RequestBody ClienteDto clienteDto, @PathVariable("id") long id){
+
+		clienteDto.setId(id);
+		boolean aggiornato = cs.aggiorna(clienteDto);
+		if (aggiornato) {
+			return clienteDto;
+		} else {
+			return null;
+		}
+	}
+
+	@DeleteMapping("/elimina/{id}")
+	public String elimina(@PathVariable("id") long id){
+
+		boolean elimnato = cs.elimina(id);
+		if (elimnato){
+			return "Cliente eliminato con successo";
+		} else {
+			return "Eliminazione fallita";
+		}
+	}
+
+	@GetMapping("/getCliente/{id}")
 	public ClienteDto getClienteById(@PathVariable("id") long id) {
 
 		return cs.getClienteById(id);
 	}
 	
-	@GetMapping("getListaClienti")
+	@GetMapping("/getListaClienti")
 	public Iterable<ClienteDto> getListaClienti() {
 		
 		return cs.getListaClienti();
