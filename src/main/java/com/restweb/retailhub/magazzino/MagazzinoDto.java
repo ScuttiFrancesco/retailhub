@@ -1,6 +1,6 @@
 package com.restweb.retailhub.magazzino;
 
-import com.restweb.retailhub.negozio.Negozio;
+import com.restweb.retailhub.negozio.NegozioDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -14,7 +14,7 @@ public class MagazzinoDto {
 	private String indirizzo;
 	@NotBlank
 	private String telefono;
-	private Negozio negozio;// da verificare se crea il loop...ev. si puo eliminare
+
 
 	public void trimCampi() {
 		if (getSede() != null) {

@@ -2,7 +2,10 @@ package com.restweb.retailhub.cliente;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restweb.retailhub.ordine.Ordine;
 import com.restweb.retailhub.persona.Persona;
 import jakarta.persistence.Entity;
@@ -24,7 +27,8 @@ public class Cliente extends Persona implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private Date dataRegistrazione;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
+	private LocalDate dataRegistrazione;
 	@OneToMany(mappedBy = "cliente")
 	private List<Ordine> ordini;
 

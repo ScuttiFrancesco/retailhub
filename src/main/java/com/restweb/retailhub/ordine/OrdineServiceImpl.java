@@ -1,5 +1,7 @@
 package com.restweb.retailhub.ordine;
 
+import com.restweb.retailhub.enums.PagamentoOrdine;
+import com.restweb.retailhub.enums.StatoOrdine;
 import com.restweb.retailhub.exception.DataConflictException;
 import com.restweb.retailhub.magazzino.Magazzino;
 import com.restweb.retailhub.magazzino.MagazzinoDto;
@@ -8,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class OrdineServiceImpl implements IOrdineService{
             throw new DataConflictException("Ordine già presente in DB");
         }
 
-        long id = or.recuperaUltimoId();
+        long id = or.recuperaUltimoId() + 1;
         or.setAutoIncrement(id);
 
         or.save(mm.map(o, Ordine.class));
@@ -87,6 +90,81 @@ public class OrdineServiceImpl implements IOrdineService{
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAll();
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun ordine presente in DB");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, OrdineDtoDaDB.class)));
+
+        return listaDto;
+    }
+
+    @Override
+    public List<OrdineDtoDaDB> getOrdiniByCliente(long id) {
+
+        List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
+        List<Ordine> lista = or.findAllByCliente_id(id);
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun ordine presente in DB");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, OrdineDtoDaDB.class)));
+
+        return listaDto;
+    }
+
+    @Override
+    public List<OrdineDtoDaDB> getOrdiniByNegozio(long id) {
+
+        List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
+        List<Ordine> lista = or.findAllByNegozio_id(id);
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun ordine presente in DB");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, OrdineDtoDaDB.class)));
+
+        return listaDto;
+    }
+
+    @Override
+    public List<OrdineDtoDaDB> getOrdiniByData(Date data) {
+
+        List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
+        List<Ordine> lista = or.findAllByDataOrdine(data);
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun ordine presente in DB");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, OrdineDtoDaDB.class)));
+
+        return listaDto;
+    }
+
+    @Override
+    public List<OrdineDtoDaDB> getOrdiniByStatoOrdine(StatoOrdine statoOrdine) {
+
+        List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
+        List<Ordine> lista = or.findAllByStatoOrdine(statoOrdine);
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun ordine presente in DB");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, OrdineDtoDaDB.class)));
+
+        return listaDto;
+    }
+
+    @Override
+    public List<OrdineDtoDaDB> getOrdiniByPagamentoOrdine(PagamentoOrdine pagamentoOrdine) {
+
+        List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
+        List<Ordine> lista = or.findAllByPagamentoOrdine(pagamentoOrdine);
 
         if (lista.isEmpty()) {
             throw new EntityNotFoundException("Nessun ordine presente in DB");

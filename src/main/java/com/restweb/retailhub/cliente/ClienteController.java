@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/cliente")
 public class ClienteController {
 
-	private IClienteService cs;
+	private final IClienteService cs;
 
 	@Autowired
 	public ClienteController(IClienteService cs) {
@@ -22,25 +22,25 @@ public class ClienteController {
 		this.cs = cs;
 	}
 
-	@PostMapping("/inserisci")
+	@PostMapping("/admin/inserisci")
 	public ClienteDto inserisci(@RequestBody ClienteDto clienteDto){
 
 		return cs.inserisci(clienteDto);
 	}
 
-	@PutMapping("/aggiorna/{id}")
-	public ClienteDto inserisci(@RequestBody ClienteDto clienteDto, @PathVariable("id") long id){
+	@PutMapping("/admin/aggiorna/{id}")
+	public ClienteDto aggiorna(@RequestBody ClienteDto clienteDto, @PathVariable("id") long id){
 
 		clienteDto.setId(id);
 		boolean aggiornato = cs.aggiorna(clienteDto);
 		if (aggiornato) {
-			return clienteDto;
-		} else {
 			return null;
+		} else {
+			return clienteDto ;
 		}
 	}
 
-	@DeleteMapping("/elimina/{id}")
+	@DeleteMapping("/admin/elimina/{id}")
 	public String elimina(@PathVariable("id") long id){
 
 		boolean elimnato = cs.elimina(id);

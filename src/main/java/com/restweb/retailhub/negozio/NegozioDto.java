@@ -1,6 +1,6 @@
 package com.restweb.retailhub.negozio;
 
-import com.restweb.retailhub.magazzino.Magazzino;
+import com.restweb.retailhub.magazzino.MagazzinoDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -14,6 +14,17 @@ public class NegozioDto {
 	private String indirizzo;
 	@NotBlank
 	private String telefono;
-	private Magazzino magazzino;
 
+
+	public void trimCampi() {
+		if (getSede() != null) {
+			setSede(getSede().trim());
+		}
+		if (getIndirizzo() != null) {
+			setIndirizzo(getIndirizzo().trim());
+		}
+		if (getTelefono() != null) {
+			setTelefono(getTelefono().trim());
+		}
+	}
 }

@@ -29,10 +29,18 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
+		https.csrf().disable()
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/magazzino/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**", "/api/prodotto/admin/**")
+						.hasAnyAuthority("ROLE_ADMIN", "ADMIN")  // permettiamo entrambe le versioni
+						.anyRequest().authenticated()
+				)
+				.sessionManagement(session -> session
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				)
+				.addFilterBefore(jaf, UsernamePasswordAuthenticationFilter.class);
 
-		https.csrf().disable().authorizeHttpRequests().requestMatchers("/api/cliente/**","/auth/**").permitAll().requestMatchers("/admin/**").hasRole("ADMIN").anyRequest()
-				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		https.addFilterBefore(jaf, UsernamePasswordAuthenticationFilter.class);
 		return https.build();
 	}
 

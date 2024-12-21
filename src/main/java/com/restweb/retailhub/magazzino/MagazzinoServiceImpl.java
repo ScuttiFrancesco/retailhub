@@ -33,7 +33,7 @@ public class MagazzinoServiceImpl implements IMagazzinoService {
 			throw new DataConflictException("Magazzino già presente in DB");
 		}
 
-		long id = mr.recuperaUltimoId();
+		long id = mr.recuperaUltimoId() + 1;
 		mr.setAutoIncrement(id);
 
 		mr.save(mm.map(m, Magazzino.class));

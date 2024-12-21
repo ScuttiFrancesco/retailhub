@@ -1,16 +1,15 @@
 package com.restweb.retailhub.ordine;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.restweb.retailhub.cliente.Cliente;
+import com.restweb.retailhub.cliente.ClienteDto;
 import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
-import com.restweb.retailhub.negozio.Negozio;
-import com.restweb.retailhub.operatore.Operatore;
+import com.restweb.retailhub.negozio.NegozioDto;
+import com.restweb.retailhub.operatore.OperatoreDto;
 import com.restweb.retailhub.prodotto.Prodotto;
-
+import com.restweb.retailhub.prodotto.ProdottoDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -21,20 +20,20 @@ public class OrdineDtoDaClient {
 	private double totale;
 	@NotNull(message = "Campo data ordine obbligatorio")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
-	private Date dataOrdine;
+	private LocalDate dataOrdine;
 	@NotNull
 	private StatoOrdine statoOrdine;
 	@NotNull
 	private PagamentoOrdine pagamentoOrdine;
-	private Cliente cliente;
-	private Operatore operatore;
-	private Negozio negozio;
+	private ClienteDto cliente;
+	private OperatoreDto operatore;
+	private NegozioDto negozio;
 	@NotNull
-	private List<Prodotto> prodotti;
+	private List<ProdottoDto> prodotti;
 
 	public void calcolaTotale(){
 
-		this.totale = prodotti.stream().mapToDouble(Prodotto::getPrezzo).sum();
+		this.totale = prodotti.stream().mapToDouble(ProdottoDto::getPrezzo).sum();
 
 	}
 
