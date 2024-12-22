@@ -32,8 +32,9 @@ public class SecurityConfig {
 		https.csrf().disable()
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/magazzino/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**", "/api/prodotto/admin/**")
+                        .requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**")
 						.hasAnyAuthority("ROLE_ADMIN", "ADMIN")  // permettiamo entrambe le versioni
+						.requestMatchers("/api/magazzino/magazziniere/**", "/api/prodotto/magazziniere/**").hasAnyAuthority("ROLE_MAGAZZ", "MAGAZZ")
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session

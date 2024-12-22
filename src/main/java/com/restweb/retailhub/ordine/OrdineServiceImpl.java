@@ -5,25 +5,30 @@ import com.restweb.retailhub.enums.StatoOrdine;
 import com.restweb.retailhub.exception.DataConflictException;
 import com.restweb.retailhub.magazzino.Magazzino;
 import com.restweb.retailhub.magazzino.MagazzinoDto;
+import com.restweb.retailhub.prodotto.IProdottoRepository;
+import com.restweb.retailhub.prodotto.Prodotto;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrdineServiceImpl implements IOrdineService{
 
-    private IOrdineRepository or;
-    private ModelMapper mm;
+    private final IOrdineRepository or;
+    private final ModelMapper mm;
+    private final IProdottoRepository pr;
 
     @Autowired
-    public OrdineServiceImpl(IOrdineRepository or, ModelMapper mm) {
+    public OrdineServiceImpl(IOrdineRepository or, ModelMapper mm, IProdottoRepository pr) {
         this.or = or;
         this.mm = mm;
+        this.pr = pr;
     }
 
     @Override
@@ -35,10 +40,14 @@ public class OrdineServiceImpl implements IOrdineService{
                 && ord.getCliente().getId()==o.getCliente().getId() && ord.getNegozio().getId()==o.getNegozio().getId())) {
             throw new DataConflictException("Ordine già presente in DB");
         }
+        if (o.getProdotti()!= null){
+            o.getProdotti().forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(), -1));
+            }
 
         long id = or.recuperaUltimoId() + 1;
         or.setAutoIncrement(id);
 
+        o.calcolaTotale();
         or.save(mm.map(o, Ordine.class));
 
         return mm.map(or.findById(id), OrdineDtoDaDB.class);
@@ -60,6 +69,13 @@ public class OrdineServiceImpl implements IOrdineService{
             throw new DataConflictException("Ordine già presente in DB");
         }
 
+        List<Prodotto> prodotti = pr.findAllByOrdine_id(o.getId());
+        prodotti.forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(),  1));
+        if (o.getProdotti()!= null){
+            o.getProdotti().forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(),  - 1));
+        }
+
+        o.calcolaTotale();
         or.save(mm.map(o, Ordine.class));
 
         return or.findById(o.getId()).get().equals(mm.map(o, Ordine.class));
@@ -101,7 +117,7 @@ public class OrdineServiceImpl implements IOrdineService{
     }
 
     @Override
-    public List<OrdineDtoDaDB> getOrdiniByCliente(long id) {
+    public List<OrdineDtoDaDB> getListaOrdiniByCliente(long id) {
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAllByCliente_id(id);
@@ -116,7 +132,7 @@ public class OrdineServiceImpl implements IOrdineService{
     }
 
     @Override
-    public List<OrdineDtoDaDB> getOrdiniByNegozio(long id) {
+    public List<OrdineDtoDaDB> getListaOrdiniByNegozio(long id) {
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAllByNegozio_id(id);
@@ -131,7 +147,7 @@ public class OrdineServiceImpl implements IOrdineService{
     }
 
     @Override
-    public List<OrdineDtoDaDB> getOrdiniByData(Date data) {
+    public List<OrdineDtoDaDB> getListaOrdiniByData(LocalDate data) {
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAllByDataOrdine(data);
@@ -146,7 +162,7 @@ public class OrdineServiceImpl implements IOrdineService{
     }
 
     @Override
-    public List<OrdineDtoDaDB> getOrdiniByStatoOrdine(StatoOrdine statoOrdine) {
+    public List<OrdineDtoDaDB> getListaOrdiniByStatoOrdine(StatoOrdine statoOrdine) {
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAllByStatoOrdine(statoOrdine);
@@ -161,7 +177,7 @@ public class OrdineServiceImpl implements IOrdineService{
     }
 
     @Override
-    public List<OrdineDtoDaDB> getOrdiniByPagamentoOrdine(PagamentoOrdine pagamentoOrdine) {
+    public List<OrdineDtoDaDB> getListaOrdiniByPagamentoOrdine(PagamentoOrdine pagamentoOrdine) {
 
         List<OrdineDtoDaDB> listaDto = new ArrayList<OrdineDtoDaDB>();
         List<Ordine> lista = or.findAllByPagamentoOrdine(pagamentoOrdine);

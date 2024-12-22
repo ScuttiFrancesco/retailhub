@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -27,7 +28,7 @@ public interface IOrdineRepository extends JpaRepository<Ordine, Long> {
 
     List<Ordine> findAllByNegozio_id(long id);
 
-    List<Ordine> findAllByDataOrdine(Date data);
+    List<Ordine> findAllByDataOrdine(LocalDate data);
 
     List<Ordine> findAllByStatoOrdine(StatoOrdine statoOrdine);
 

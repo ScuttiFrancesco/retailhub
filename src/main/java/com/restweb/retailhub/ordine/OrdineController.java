@@ -1,6 +1,10 @@
 package com.restweb.retailhub.ordine;
 
+import com.restweb.retailhub.enums.PagamentoOrdine;
+import com.restweb.retailhub.enums.StatoOrdine;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/ordine")
@@ -51,5 +55,35 @@ public class OrdineController {
     public Iterable<OrdineDtoDaDB> getListaOrdini() {
 
         return os.getListaOrdini();
+    }
+
+    @GetMapping("/getListaOrdiniByCliente/{id}")
+    public Iterable<OrdineDtoDaDB> getListaOrdiniByCliente(@PathVariable("id") long id) {
+
+        return os.getListaOrdiniByCliente(id);
+    }
+
+    @GetMapping("/getListaOrdiniByNegozio/{id}")
+    public Iterable<OrdineDtoDaDB> getListaOrdiniByNegozio(@PathVariable("id") long id) {
+
+        return os.getListaOrdiniByNegozio(id);
+    }
+
+    @GetMapping("/getListaOrdiniByData/{data}")
+    public Iterable<OrdineDtoDaDB> getListaOrdiniByData(@PathVariable("data") LocalDate data) {
+
+        return os.getListaOrdiniByData(data);
+    }
+
+    @GetMapping("/getListaOrdiniByStatoOrdine/{statoOrdine}")
+    public Iterable<OrdineDtoDaDB> getListaOrdiniByStatoOrdine(@PathVariable("statoOrdine") String statoOrdine) {
+
+        return os.getListaOrdiniByStatoOrdine(StatoOrdine.valueOf(statoOrdine));
+    }
+
+    @GetMapping("/getListaOrdiniByPagamentoOrdine/{pagamentoOrdine}")
+    public Iterable<OrdineDtoDaDB> getListaOrdiniByPagamentoOrdine(@PathVariable("pagamentoOrdine") PagamentoOrdine pagamento) {
+
+        return os.getListaOrdiniByPagamentoOrdine(pagamento);
     }
 }

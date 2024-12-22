@@ -4,6 +4,7 @@ import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IOrdineService {
@@ -18,13 +19,13 @@ public interface IOrdineService {
 
     List<OrdineDtoDaDB> getListaOrdini();
 
-    List<OrdineDtoDaDB> getOrdiniByCliente(long id);
+    List<OrdineDtoDaDB> getListaOrdiniByCliente(long id);
 
-    List<OrdineDtoDaDB> getOrdiniByNegozio(long id);
+    List<OrdineDtoDaDB> getListaOrdiniByNegozio(long id);
 
-    List<OrdineDtoDaDB> getOrdiniByData(Date data);
+    List<OrdineDtoDaDB> getListaOrdiniByData(LocalDate data);
 
-    List<OrdineDtoDaDB> getOrdiniByStatoOrdine(StatoOrdine statoOrdine);
+    List<OrdineDtoDaDB> getListaOrdiniByStatoOrdine(StatoOrdine statoOrdine);
 
-    List<OrdineDtoDaDB> getOrdiniByPagamentoOrdine(PagamentoOrdine pagamentoOrdine);
+    List<OrdineDtoDaDB> getListaOrdiniByPagamentoOrdine(PagamentoOrdine pagamentoOrdine);
 }

@@ -13,4 +13,6 @@ public interface IProdottoService {
     ProdottoDto getProdottoById(long id);
 
     List<ProdottoDto> getListaProdotti();
+
+    List<ProdottoDto> getListaProdottiByOrdine(long id);
 }
