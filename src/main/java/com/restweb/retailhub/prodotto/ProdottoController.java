@@ -58,4 +58,10 @@ public class ProdottoController {
 
         return ps.getListaProdottiByOrdine(id);
     }
+
+    @GetMapping("/getListaProdottiByNegozio/{id}")
+    public Iterable<ProdottoDto> getListaProdottiByNegozio(@PathVariable("id") long id) {
+
+        return ps.getListaProdottiByNegozio(id);
+    }
 }

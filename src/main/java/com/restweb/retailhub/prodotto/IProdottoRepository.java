@@ -29,4 +29,7 @@ public interface IProdottoRepository extends JpaRepository<Prodotto, Long> {
     void modificaQuantita(@Param("nome") String nome, @Param("marca") String marca, @Param("quantita") long quantita);
 
     Prodotto findByNomeAndMarca(String nome, String marca);
+
+    @Query(value = "SELECT p.id, p.data_scadenza, p.lotto, p.marca, p.nome, p.prezzo, p.quantita, p.tipo, p.magazzino_id FROM prodotti p JOIN magazzini m ON p.magazzino_id = m.id JOIN negozi n ON m.negozio_id = n.id WHERE n.id = :id", nativeQuery = true)
+    List<Prodotto> listaProdottibyNegozio(@Param("id") long id);
 }

@@ -107,4 +107,19 @@ public class ProdottoServiceImpl implements IProdottoService{
 
         return listaDto;
     }
+
+    @Override
+    public List<ProdottoDto> getListaProdottiByNegozio(long id) {
+
+        List<ProdottoDto> listaDto = new ArrayList<ProdottoDto>();
+        List<Prodotto> lista = pr.listaProdottibyNegozio(id);
+
+        if (lista.isEmpty()) {
+            throw new EntityNotFoundException("Nessun prodotto presente in magazzino");
+        }
+
+        lista.forEach(p -> listaDto.add(mm.map(p, ProdottoDto.class)));
+
+        return listaDto;
+    }
 }
