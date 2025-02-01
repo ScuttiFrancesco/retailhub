@@ -1,5 +1,6 @@
 package com.restweb.retailhub.prodotto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restweb.retailhub.enums.TipoProdotto;
 import com.restweb.retailhub.magazzino.MagazzinoDto;
 import jakarta.validation.constraints.DecimalMin;
@@ -19,6 +20,7 @@ public class ProdottoDto {
 	private String marca;
 	@NotBlank
 	private String lotto;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
 	private LocalDate dataScadenza;
 	@DecimalMin(value = "1")
 	private double prezzo;
