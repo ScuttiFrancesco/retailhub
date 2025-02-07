@@ -31,6 +31,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
 		https.csrf().disable()
 				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(httpmethod -> httpmethod.getMethod().equals("OPTIONS")).permitAll()
 						.requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**")
 						.hasAnyAuthority("ROLE_ADMIN", "ADMIN")  // permettiamo entrambe le versioni

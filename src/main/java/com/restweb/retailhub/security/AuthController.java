@@ -10,7 +10,7 @@ import com.restweb.retailhub.user.User;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/auth")
 public class AuthController {
 

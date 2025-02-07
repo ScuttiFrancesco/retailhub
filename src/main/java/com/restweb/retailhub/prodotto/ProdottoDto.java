@@ -3,11 +3,12 @@ package com.restweb.retailhub.prodotto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restweb.retailhub.enums.TipoProdotto;
 import com.restweb.retailhub.magazzino.MagazzinoDto;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
@@ -26,7 +27,7 @@ public class ProdottoDto {
 	private double prezzo;
 	private TipoProdotto tipo;
 	@Min(value = 1)
-	private int quantita;
+	private int quantita;	
 	private MagazzinoDto magazzino;
 
 	public void trimCampi() {

@@ -7,7 +7,6 @@ import com.restweb.retailhub.ordine.Ordine;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
