@@ -41,7 +41,6 @@ public class OrdineServiceImpl implements IOrdineService {
         }
         if (o.getProdotti() != null) {
             o.getProdotti().forEach(p -> {
-                
                 pr.modificaQuantita(p.getNome(), p.getMarca(), -p.getQuantita());
 
             });
@@ -52,7 +51,7 @@ public class OrdineServiceImpl implements IOrdineService {
 
         o.calcolaTotale();
         Ordine ord = mm.map(o, Ordine.class);
-        //ord.getProdotti().forEach(p -> p.setVecchiaQuantita(p.getQuantita()));
+        ord.getProdotti().forEach(p -> p.setQuant(p.getQuantita()));
 
         or.save(ord);
 
@@ -76,17 +75,19 @@ public class OrdineServiceImpl implements IOrdineService {
         }
 
         List<Prodotto> prodotti = pr.findAllByOrdine_id(o.getId());
+        for (Prodotto prodotto : prodotti) {
+            pr.modificaQuantita(prodotto.getNome(), prodotto.getMarca(), +prodotto.getQuant());
+        }
         for (ProdottoDto prod : o.getProdotti()) {
-            for (Prodotto prodotto : prodotti) {
-                if (prod.getId() == prodotto.getId()) {
-                    pr.modificaQuantita(prod.getNome(), prod.getMarca(), -prod.getQuantita());
-                }
-            }
+            pr.modificaQuantita(prod.getNome(), prod.getMarca(), -prod.getQuantita());
 
         }
 
         o.calcolaTotale();
-        or.save(mm.map(o, Ordine.class));
+        Ordine ord = mm.map(o, Ordine.class);
+        ord.getProdotti().forEach(p -> p.setQuant(p.getQuantita()));
+
+        or.save(ord);
 
         return or.findById(o.getId()).get().equals(mm.map(o, Ordine.class));
     }

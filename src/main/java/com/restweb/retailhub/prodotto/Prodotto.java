@@ -24,6 +24,7 @@ public class Prodotto implements Serializable{
 	private String lotto;
 	private LocalDate dataScadenza;
 	private double prezzo;
+	private int quant;
 	@Convert(converter = TipoProdottoConverter.class)
 	private TipoProdotto tipo;
 	private int quantita;

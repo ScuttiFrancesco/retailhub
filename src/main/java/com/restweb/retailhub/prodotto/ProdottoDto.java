@@ -28,6 +28,7 @@ public class ProdottoDto {
 	private TipoProdotto tipo;
 	@Min(value = 1)
 	private int quantita;	
+	private int quant;
 	private MagazzinoDto magazzino;
 
 	public void trimCampi() {
