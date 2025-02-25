@@ -1,10 +1,7 @@
 package com.restweb.retailhub.cliente;
 
-import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restweb.retailhub.ordine.Ordine;
 import com.restweb.retailhub.persona.Persona;
@@ -21,8 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clienti")
-public class Cliente extends Persona implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class Cliente extends Persona {
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

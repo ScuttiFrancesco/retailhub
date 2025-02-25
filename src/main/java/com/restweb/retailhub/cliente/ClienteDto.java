@@ -1,6 +1,5 @@
 package com.restweb.retailhub.cliente;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
