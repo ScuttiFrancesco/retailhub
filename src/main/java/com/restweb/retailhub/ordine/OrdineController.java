@@ -36,14 +36,10 @@ public class OrdineController {
     }
 
     @DeleteMapping("/admin/elimina/{id}")
-    public String elimina(@PathVariable("id") long id){
+    public void elimina(@PathVariable("id") long id){
 
         boolean elimnato = os.elimina(id);
-        if (elimnato){
-            return "Ordine eliminato con successo";
-        } else {
-            return "Eliminazione fallita";
-        }
+       
     }
 
     @GetMapping("/getOrdine/{id}")

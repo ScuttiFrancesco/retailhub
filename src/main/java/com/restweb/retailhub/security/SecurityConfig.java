@@ -33,6 +33,7 @@ public class SecurityConfig {
 				// Disabilitiamo CSRF solo per le API REST stateless
 				.csrf(csrf -> csrf.ignoringRequestMatchers("/auth/**", "/api/**"))
 				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(httpmethod -> httpmethod.getMethod().equals("OPTIONS")).permitAll()
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						.requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**")

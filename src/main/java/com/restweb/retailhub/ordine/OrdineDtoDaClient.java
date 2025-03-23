@@ -8,7 +8,6 @@ import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
 import com.restweb.retailhub.negozio.NegozioDto;
 import com.restweb.retailhub.operatore.OperatoreDto;
-import com.restweb.retailhub.prodotto.Prodotto;
 import com.restweb.retailhub.prodotto.ProdottoDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -19,7 +18,7 @@ public class OrdineDtoDaClient {
 	private long id;
 	private double totale;
 	@NotNull(message = "Campo data ordine obbligatorio")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
 	private LocalDate dataOrdine;
 	@NotNull
 	private StatoOrdine statoOrdine;
@@ -33,7 +32,7 @@ public class OrdineDtoDaClient {
 
 	public void calcolaTotale(){
 
-		this.totale = prodotti.stream().mapToDouble(ProdottoDto::getPrezzo).sum();
+		this.totale = prodotti.stream().mapToDouble(p -> p.getPrezzo() * p.getQuantita()).sum();
 
 	}
 

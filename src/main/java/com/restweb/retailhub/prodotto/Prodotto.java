@@ -7,7 +7,6 @@ import com.restweb.retailhub.ordine.Ordine;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class Prodotto implements Serializable{
 	private String lotto;
 	private LocalDate dataScadenza;
 	private double prezzo;
+	private int quant;
 	@Convert(converter = TipoProdottoConverter.class)
 	private TipoProdotto tipo;
 	private int quantita;

@@ -3,22 +3,20 @@ package com.restweb.retailhub.ordine;
 import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
 import com.restweb.retailhub.exception.DataConflictException;
-import com.restweb.retailhub.magazzino.Magazzino;
-import com.restweb.retailhub.magazzino.MagazzinoDto;
 import com.restweb.retailhub.prodotto.IProdottoRepository;
 import com.restweb.retailhub.prodotto.Prodotto;
+import com.restweb.retailhub.prodotto.ProdottoDto;
+
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrdineServiceImpl implements IOrdineService{
+public class OrdineServiceImpl implements IOrdineService {
 
     private final IOrdineRepository or;
     private final ModelMapper mm;
@@ -36,22 +34,28 @@ public class OrdineServiceImpl implements IOrdineService{
 
         List<Ordine> lista = or.findAll();
 
-        if (lista.stream().anyMatch(ord -> ord.getDataOrdine().equals(o.getDataOrdine())
-                && ord.getCliente().getId()==o.getCliente().getId() && ord.getNegozio().getId()==o.getNegozio().getId())) {
+        if (lista.stream().anyMatch(ord -> ord.getDataOrdine() != null && ord.getDataOrdine().equals(o.getDataOrdine())
+                && ord.getCliente().getId() == o.getCliente().getId()
+                && ord.getNegozio().getId() == o.getNegozio().getId())) {
             throw new DataConflictException("Ordine già presente in DB");
         }
-        if (o.getProdotti()!= null){
-            o.getProdotti().forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(), -1));
-            }
+        if (o.getProdotti() != null) {
+            o.getProdotti().forEach(p -> {
+                pr.modificaQuantita(p.getNome(), p.getMarca(), -p.getQuantita());
+
+            });
+        }
 
         long id = or.recuperaUltimoId() + 1;
         or.setAutoIncrement(id);
 
         o.calcolaTotale();
-        or.save(mm.map(o, Ordine.class));
+        Ordine ord = mm.map(o, Ordine.class);
+        ord.getProdotti().forEach(p -> p.setQuant(p.getQuantita()));
+
+        or.save(ord);
 
         return mm.map(or.findById(id), OrdineDtoDaDB.class);
-
 
     }
 
@@ -65,18 +69,25 @@ public class OrdineServiceImpl implements IOrdineService{
         lista.remove(or.findById(o.getId()).get());
 
         if (lista.stream().anyMatch(ord -> ord.getDataOrdine().equals(o.getDataOrdine())
-                && ord.getCliente().getId()==o.getCliente().getId() && ord.getNegozio().getId()==o.getNegozio().getId())) {
+                && ord.getCliente().getId() == o.getCliente().getId()
+                && ord.getNegozio().getId() == o.getNegozio().getId())) {
             throw new DataConflictException("Ordine già presente in DB");
         }
 
         List<Prodotto> prodotti = pr.findAllByOrdine_id(o.getId());
-        prodotti.forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(),  1));
-        if (o.getProdotti()!= null){
-            o.getProdotti().forEach(p-> pr.modificaQuantita(p.getNome(), p.getMarca(),  - 1));
+        for (Prodotto prodotto : prodotti) {
+            pr.modificaQuantita(prodotto.getNome(), prodotto.getMarca(), +prodotto.getQuant());
+        }
+        for (ProdottoDto prod : o.getProdotti()) {
+            pr.modificaQuantita(prod.getNome(), prod.getMarca(), -prod.getQuantita());
+
         }
 
         o.calcolaTotale();
-        or.save(mm.map(o, Ordine.class));
+        Ordine ord = mm.map(o, Ordine.class);
+        ord.getProdotti().forEach(p -> p.setQuant(p.getQuantita()));
+
+        or.save(ord);
 
         return or.findById(o.getId()).get().equals(mm.map(o, Ordine.class));
     }

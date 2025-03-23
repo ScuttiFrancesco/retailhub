@@ -3,6 +3,7 @@ package com.restweb.retailhub.operatore;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/operatore")
 public class OperatoreController {
 

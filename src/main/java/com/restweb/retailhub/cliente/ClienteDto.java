@@ -1,6 +1,5 @@
 package com.restweb.retailhub.cliente;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,7 +12,7 @@ import lombok.EqualsAndHashCode;
 public class ClienteDto extends PersonaDto {
 
 	private long id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
 	private LocalDate dataRegistrazione;
 
 	public void trimCampi() {
