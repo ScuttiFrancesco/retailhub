@@ -11,7 +11,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil {
 
-	private final String SECRET_KEY = "secret";
+	private final String SECRET_KEY = "RetailHub_JWT_Secret_Key_2023_Secure_Application_Token";
 
 	public String generateToken(String username) {
 

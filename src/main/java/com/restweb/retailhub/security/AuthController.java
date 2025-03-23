@@ -37,12 +37,12 @@ public class AuthController {
 	@PostMapping("/login")
 	public String login(@RequestBody User user) {
 		User existingUser = ur.findByUsername(user.getUsername())
-				.orElseThrow(() -> new RuntimeException("User not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
 
 		if (pe.matches(user.getPassword(), existingUser.getPassword())) {
 			return ju.generateToken(existingUser.getUsername());
 		} else {
-			throw new RuntimeException("Invalid credentials");
+			throw new org.springframework.security.authentication.BadCredentialsException("Credenziali non valide");
 		}
 	}
 
