@@ -2,11 +2,14 @@ package com.restweb.retailhub.ordine;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.restweb.retailhub.cliente.Cliente;
+import com.restweb.retailhub.config.FlexibleInstantDeserializer;
 import com.restweb.retailhub.config.PagamentoOrdineConverter;
 import com.restweb.retailhub.config.StatoOrdineConverter;
 import com.restweb.retailhub.config.TipoProdottoConverter;
@@ -28,8 +31,8 @@ public class Ordine implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private double totale;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
-	private LocalDate dataOrdine;
+	@JsonDeserialize(using = FlexibleInstantDeserializer.class)
+	private Instant dataOrdine;
 	@Convert(converter = StatoOrdineConverter.class)
 	private StatoOrdine statoOrdine;
 	@Convert(converter = PagamentoOrdineConverter.class)

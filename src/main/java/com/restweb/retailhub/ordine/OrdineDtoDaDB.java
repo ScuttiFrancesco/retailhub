@@ -1,10 +1,13 @@
 package com.restweb.retailhub.ordine;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.restweb.retailhub.cliente.ClienteDto;
+import com.restweb.retailhub.config.FlexibleInstantDeserializer;
 import com.restweb.retailhub.enums.PagamentoOrdine;
 import com.restweb.retailhub.enums.StatoOrdine;
 import com.restweb.retailhub.negozio.NegozioDto;
@@ -16,8 +19,8 @@ public class OrdineDtoDaDB {
 
 	private long id;
 	private double totale;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Europe/Rome")
-	private LocalDate dataOrdine;
+	@JsonDeserialize(using = FlexibleInstantDeserializer.class)
+	private Instant dataOrdine;
 	private StatoOrdine statoOrdine;
 	private PagamentoOrdine pagamentoOrdine;
 	private ClienteDto cliente;
