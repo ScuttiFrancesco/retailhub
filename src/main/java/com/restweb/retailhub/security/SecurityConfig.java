@@ -29,11 +29,14 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
-		https.csrf().disable()
+		https
+				// Disabilitiamo CSRF solo per le API REST stateless
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/auth/**", "/api/**"))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(httpmethod -> httpmethod.getMethod().equals("OPTIONS")).permitAll()
 						.requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**")
+						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+						.requestMatchers("/api/ordine/admin/**", "/api/cliente/admin/**", "/api/negozio/admin/**", "/api/operatore/admin/**")
 						.hasAnyAuthority("ROLE_ADMIN", "ADMIN")  // permettiamo entrambe le versioni
 						.requestMatchers("/api/magazzino/magazziniere/**", "/api/prodotto/magazziniere/**").hasAnyAuthority("ROLE_MAGAZZ", "MAGAZZ")
 						.anyRequest().authenticated()
@@ -41,6 +44,13 @@ public class SecurityConfig {
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
+				// Aggiunta protezione header di sicurezza
+				/* .headers(headers -> headers
+                        .xssProtection(xss -> xss.enable(true)) // Enable XSS protection
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'"))
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Recommended for clickjacking protection
+                        .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000)) // HSTS for HTTPS enforcement
+                ) */
 				.addFilterBefore(jaf, UsernamePasswordAuthenticationFilter.class);
 
 		return https.build();
